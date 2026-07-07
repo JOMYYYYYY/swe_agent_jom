@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "swe-agent-jom"
 version = "0.1.0"
@@ -9,8 +13,15 @@ dependencies = [
     "python-dotenv>=1.2.2",
 ]
 
+[project.scripts]
+swe-agent-jom = "swe_agent_jom.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [dependency-groups]
 dev = [
     "ipykernel>=7.3.0",
     "notebook>=7.6.0",
 ]
+
