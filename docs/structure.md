@@ -21,7 +21,7 @@ src/swe_agent_jom/
     __init__.py
     file_tool.py
     search_tool.py
-    bash_tool.py
+    command_tool.py
     patch_tool.py
     git_tool.py
 
@@ -74,7 +74,7 @@ Examples:
 
 - `file_tool.py`: read, list, and inspect files
 - `search_tool.py`: search code or filenames
-- `bash_tool.py`: run approved shell commands
+- `command_tool.py`: run approved project commands
 - `patch_tool.py`: apply or propose patches
 - `git_tool.py`: inspect git status and diffs
 
@@ -98,7 +98,7 @@ tools/ = model-callable actions
 runtime/ = internal safe execution primitives
 ```
 
-For example, `tools/bash_tool.py` may call `runtime/command_runner.py`, but the model should never call `command_runner.py` directly.
+For example, `tools/command_tool.py` may call `runtime/command_runner.py`, but the model should never call `command_runner.py` directly.
 
 ### `core/`
 
@@ -197,7 +197,7 @@ src/swe_agent_jom/
   tools/
     file_tool.py
     search_tool.py
-    bash_tool.py
+    command_tool.py
 
   memory/
     trajectory.py

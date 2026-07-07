@@ -1,4 +1,4 @@
-﻿def main() -> None:
+def main() -> None:
     print("Hello from swe-agent-jom!")
 
 

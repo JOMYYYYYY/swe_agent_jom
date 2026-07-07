@@ -1,1 +1,1 @@
-﻿"""SWE Agent JOM package."""
+"""SWE Agent JOM package."""
