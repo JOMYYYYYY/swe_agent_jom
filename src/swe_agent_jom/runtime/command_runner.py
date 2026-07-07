@@ -5,7 +5,7 @@ import sys
 from collections.abc import Sequence
 
 from swe_agent_jom.config.settings import (
-    ALLOWED_COMMAND_PREFIXES,
+    ALLOWED_COMMANDS,
     COMMAND_TIMEOUT_SECONDS,
     MAX_COMMAND_OUTPUT_CHARS,
 )
@@ -38,10 +38,10 @@ def run_command(
     if not is_allowed_command(command):
         return error_result(
             "CommandNotAllowedError",
-            "Command is not allowed by the configured command prefix allowlist.",
+            "Command is not in the exact command allowlist.",
             details={
                 "args": list(command),
-                "allowed_prefixes": [list(prefix) for prefix in ALLOWED_COMMAND_PREFIXES],
+                "allowed_commands": [list(allowed) for allowed in ALLOWED_COMMANDS],
             },
         )
 
@@ -79,8 +79,8 @@ def run_command(
             f"Command timed out after {timeout_seconds} seconds.",
             details={
                 "args": list(command),
-                "stdout": _truncate(error.stdout or "", max_output_chars),
-                "stderr": _truncate(error.stderr or "", max_output_chars),
+                "stdout": _truncate(_output_to_text(error.stdout), max_output_chars),
+                "stderr": _truncate(_output_to_text(error.stderr), max_output_chars),
             },
         )
 
@@ -98,13 +98,17 @@ def run_command(
 
 
 def is_allowed_command(args: Sequence[str]) -> bool:
-    command = tuple(args)
+    return tuple(args) in ALLOWED_COMMANDS
 
-    for prefix in ALLOWED_COMMAND_PREFIXES:
-        if len(command) >= len(prefix) and command[: len(prefix)] == prefix:
-            return True
 
-    return False
+def _output_to_text(output: str | bytes | bytearray | memoryview | None) -> str:
+    if output is None:
+        return ""
+
+    if isinstance(output, str):
+        return output
+
+    return bytes(output).decode("utf-8", errors="replace")
 
 
 def _truncate(text: str, max_chars: int) -> str:

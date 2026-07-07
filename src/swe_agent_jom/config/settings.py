@@ -4,9 +4,8 @@ import os
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
 WORKSPACE_ROOT = Path(
-    os.getenv("SWE_AGENT_JOM_WORKSPACE_ROOT", str(PROJECT_ROOT))
+    os.getenv("SWE_AGENT_JOM_WORKSPACE_ROOT", str(Path.cwd()))
 ).resolve()
 
 COMMAND_TIMEOUT_SECONDS = int(os.getenv("SWE_AGENT_JOM_COMMAND_TIMEOUT", "30"))
@@ -17,13 +16,17 @@ MAX_READ_FILE_CHARS = int(os.getenv("SWE_AGENT_JOM_MAX_READ_FILE_CHARS", "12000"
 MAX_SEARCH_RESULTS = int(os.getenv("SWE_AGENT_JOM_MAX_SEARCH_RESULTS", "50"))
 MAX_LIST_FILES_RESULTS = int(os.getenv("SWE_AGENT_JOM_MAX_LIST_FILES_RESULTS", "200"))
 
-ALLOWED_COMMAND_PREFIXES: tuple[tuple[str, ...], ...] = (
+# Exact command allowlist. Keep this intentionally narrow: allowing arbitrary
+# extra arguments can turn read-only commands into commands with side effects.
+ALLOWED_COMMANDS: tuple[tuple[str, ...], ...] = (
     ("python", "-m", "pytest"),
     ("python", "-m", "unittest"),
-    ("python", "-m", "compileall"),
+    ("python", "-m", "compileall", "src"),
     ("pytest",),
     ("git", "status"),
+    ("git", "status", "--short"),
     ("git", "diff"),
+    ("git", "diff", "--stat"),
 )
 
 EXCLUDED_DIR_NAMES: frozenset[str] = frozenset(
