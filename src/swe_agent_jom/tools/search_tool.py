@@ -71,7 +71,6 @@ def search_code(
             continue
 
         text = content.decode("utf-8", errors="replace")
-        comparable_text = text if case_sensitive else text.lower()
 
         for line_number, line in enumerate(text.splitlines(), start=1):
             comparable_line = line if case_sensitive else line.lower()
