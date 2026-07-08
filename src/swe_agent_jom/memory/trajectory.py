@@ -13,10 +13,22 @@ StepKind = Literal[
     "tool_result",
     "final_answer",
 ]
+"""Allowed event kinds in a trajectory.
+
+定义一条轨迹里允许出现的 step 类型。存在这个类型别名，是为了让记录
+user/assistant/tool/final answer 时只能使用固定字符串，减少拼写错误。
+"""
 
 
 @dataclass
 class TrajectoryStep:
+    """One timestamped event in an agent run.
+
+    表示 agent 运行过程中的“一步”：可能是用户输入、assistant 回复、
+    工具调用、工具返回结果，或者最终答案。存在这个类型，是为了让每一步
+    都有统一结构：kind 表示事件类型，content 存具体内容，created_at 记录时间。
+    """
+
     kind: StepKind
     content: dict[str, Any]
     created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
@@ -24,6 +36,13 @@ class TrajectoryStep:
 
 @dataclass
 class Trajectory:
+    """In-memory log of an agent run.
+
+    表示一次 agent 执行过程的完整轨迹，内部按顺序保存多个 TrajectoryStep。
+    存在这个类型，是为了后续调试、复盘和评估 agent 行为：可以看到模型说了什么、
+    调用了什么工具、工具返回了什么，以及最后如何回答。
+    """
+
     steps: list[TrajectoryStep] = field(default_factory=list)
 
     def record_user_message(self, content: str) -> TrajectoryStep:
