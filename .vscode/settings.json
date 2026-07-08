@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "./src",
+    "./fixtures/workspaces/calculator_bug/src"
+  ]
+}

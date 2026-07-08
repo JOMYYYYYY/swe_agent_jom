@@ -21,6 +21,7 @@ MAX_LIST_FILES_RESULTS = int(os.getenv("SWE_AGENT_JOM_MAX_LIST_FILES_RESULTS", "
 ALLOWED_COMMANDS: tuple[tuple[str, ...], ...] = (
     ("python", "-m", "pytest"),
     ("python", "-m", "unittest"),
+    ("python", "-m", "unittest", "discover", "-s", "tests"),
     ("python", "-m", "compileall", "src"),
     ("pytest",),
     ("git", "status"),
