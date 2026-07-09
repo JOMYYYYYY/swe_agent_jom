@@ -1,6 +1,9 @@
 {
   "python.analysis.extraPaths": [
     "./src",
-    "./fixtures/workspaces/calculator_bug/src"
+    "./fixtures/workspaces/calculator_bug/src",
+    "./fixtures/workspaces/config_parser_bug/src",
+    "./fixtures/workspaces/list_filter_bug/src",
+    "./fixtures/workspaces/string_utils_bug/src"
   ]
 }
