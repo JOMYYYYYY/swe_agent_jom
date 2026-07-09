@@ -5,3 +5,4 @@
 - Run relevant tests/lint/build commands before finishing when possible.
 - Explain any assumptions or skipped checks.
 - After modifying code, provide a suggested commit message in Conventional Commits format.
+- For every Python function the agent writes, include concise inline comments inside the function body to explain the key implementation steps. Do not rely only on the function docstring for explanation.
